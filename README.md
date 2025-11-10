@@ -28,6 +28,10 @@ Data & privacy
 - Entries are stored only on your device in `localStorage` under `cancerJournal.v1.entries`.
 - Backups you download are JSON files you control; no data leaves your device.
 
+Release
+- Current version: 0.1.0 (see `CHANGELOG.md`)
+- After changes that affect static assets, bump the SW cache name in `public/sw.js` (e.g., `cj-v3`) so clients refresh promptly.
+
 Notes for development
 - Type‑only imports are used (`import type { ... }`) due to `verbatimModuleSyntax`.
 - Storage helpers: `src/storage.ts` (sanitize, upsert, delete, CSV, import merge)
