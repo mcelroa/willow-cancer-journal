@@ -12,27 +12,7 @@ export function Export({ entries, onImport }: { entries: Entry[]; onImport: (nex
   const confirm = useConfirm()
   const lastBackup = getLastBackup()
 
-  const generateIconPng = async (size: 192 | 512) => {
-    try {
-      const img = new Image()
-      img.src = '/icon-maskable.svg'
-      await img.decode()
-      const canvas = document.createElement('canvas')
-      canvas.width = size
-      canvas.height = size
-      const ctx = canvas.getContext('2d')!
-      ctx.clearRect(0,0,size,size)
-      ctx.drawImage(img, 0, 0, size, size)
-      const data = canvas.toDataURL('image/png')
-      const a = document.createElement('a')
-      a.href = data
-      a.download = `icon-${size}.png`
-      a.click()
-      toast(`Generated icon-${size}.png`, 'success')
-    } catch (e) {
-      toast('Failed to generate icon', 'error')
-    }
-  }
+  // App icon PNG export removed
 
   const handleImport = async (file: File) => {
     const text = await file.text()
@@ -72,14 +52,7 @@ export function Export({ entries, onImport }: { entries: Entry[]; onImport: (nex
         <summary>Preview JSON</summary>
         <pre className="preview">{json}</pre>
       </details>
-      <details style={{marginTop:'.5rem'}}>
-        <summary>App Icons (PNG export)</summary>
-        <p className="muted">Generate PNG icons from the bundled SVG. Download and place into <code>public/</code> as <code>icon-192.png</code> and <code>icon-512.png</code>.</p>
-        <div className="actions">
-          <button className="tab" onClick={() => generateIconPng(192)}>Download 192px PNG</button>
-          <button className="tab" onClick={() => generateIconPng(512)}>Download 512px PNG</button>
-        </div>
-      </details>
+      {/* App Icons section removed */}
     </div>
   )
 }

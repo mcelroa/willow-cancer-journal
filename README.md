@@ -22,7 +22,7 @@ Getting started
 PWA
 - Manifest: `public/manifest.webmanifest`
 - Service worker: `public/sw.js` (cache version `cj-v2`)
-- Icons: SVG in `public/icon.svg` and `public/icon-maskable.svg`; generate PNGs (192/512) from Export page and place them in `public/`.
+- Icons: SVG in `public/icon.svg` and `public/icon-maskable.svg`. Optionally add PNGs (`public/icon-192.png`, `public/icon-512.png`) for broader platform support.
 
 Data & privacy
 - Entries are stored only on your device in `localStorage` under `cancerJournal.v1.entries`.

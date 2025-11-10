@@ -9,40 +9,22 @@ import { Trends } from './components/Trends'
 import { Export } from './components/Export'
 import { useToast } from './toast'
 import { BackupReminder } from './components/BackupReminder'
-import { SettingsPanel } from './components/Settings'
-import { DEFAULT_SETTINGS, loadSettings, saveSettings, type Settings } from './settings'
 
 function App() {
   const [tab, setTab] = useState<Tab>('journal')
   const [entries, setEntries] = useState<Entry[]>([])
   const [editing, setEditing] = useState<Entry | undefined>(undefined)
   const [newEntryMode, setNewEntryMode] = useState(false)
-  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS)
   const toast = useToast()
-  const didInitStartRef = useRef(false)
 
   useEffect(() => {
     const loaded = loadEntries()
     setEntries(loaded)
-    const s = loadSettings()
-    setSettings(s)
-    setTab(s.startTab)
+    // Default to journal and new entry on start
+    setTab('journal')
     setEditing(undefined)
-    setNewEntryMode(s.startTab === 'journal')
-    didInitStartRef.current = true
+    setNewEntryMode(true)
   }, [])
-
-  // Persist settings
-  useEffect(() => { saveSettings(settings) }, [settings])
-
-  // When user changes default start tab, navigate immediately too
-  useEffect(() => {
-    if (!didInitStartRef.current) return
-    setTab(settings.startTab)
-    setEditing(undefined)
-    setNewEntryMode(settings.startTab === 'journal')
-    toast('Start tab updated', 'info')
-  }, [settings.startTab])
 
   // Normalize title (ensure clean ASCII hyphen)
   useEffect(() => {
@@ -75,11 +57,10 @@ function App() {
           <TabBtn label="History" active={tab==='history'} onClick={() => setTab('history')} />
           <TabBtn label="Trends" active={tab==='trends'} onClick={() => setTab('trends')} />
           <TabBtn label="Export" active={tab==='export'} onClick={() => setTab('export')} />
-          <TabBtn label="Settings" active={tab==='settings'} onClick={() => setTab('settings')} />
         </nav>
       </header>
       <main>
-        <BackupReminder entries={entries} enabled={settings.remindersEnabled} />
+        <BackupReminder entries={entries} />
         {tab === 'journal' && (
           <JournalForm
             key={editing ? `edit-${editing.id}` : newEntryMode ? 'new' : 'default'}
@@ -103,9 +84,6 @@ function App() {
 
         {tab === 'export' && (
           <Export entries={entries} onImport={(next) => { setEntries(next); saveEntries(next); toast('Import complete', 'success') }} />
-        )}
-        {tab === 'settings' && (
-          <SettingsPanel settings={settings} onChange={(s) => setSettings(s)} />
         )}
       </main>
       <footer className="app-footer">Local-first. Your data stays on this device.</footer>

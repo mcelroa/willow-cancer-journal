@@ -1,7 +1,6 @@
 import type { Entry } from './types'
 
-const STORAGE_KEY = 'cancerJournal.v1.entries'
-export { STORAGE_KEY }
+export const STORAGE_KEY = 'cancerJournal.v1.entries'
 
 export const loadEntries = (): Entry[] => {
   try {
@@ -9,7 +8,7 @@ export const loadEntries = (): Entry[] => {
     if (!raw) return []
     const parsed = JSON.parse(raw)
     if (!Array.isArray(parsed)) return []
-    return parsed.map(sanitize).filter(Boolean) as Entry[]
+    return (parsed as unknown[]).map(sanitize)
   } catch {
     return []
   }
@@ -45,7 +44,7 @@ export const upsertEntry = (
 
 export const deleteEntry = (entries: Entry[], id: string) => entries.filter(e => e.id !== id)
 
-export const toCSV = (entries: Entry[]) => {
+export const toCSV = (entries: Entry[]): string => {
   const header = ['date','mood','pain','fatigue','nausea','notes','tags']
   const rows = [...entries]
     .sort((a,b) => a.date.localeCompare(b.date))
@@ -57,27 +56,29 @@ export const toCSV = (entries: Entry[]) => {
       String(e.nausea),
       (e.notes ?? '').replaceAll('"', '""'),
       (e.tags ?? []).join('|').replaceAll('"','""'),
-    ].map(v => /[",\n]/.test(v) ? `"${v}"` : v).join(','))
+    ].map(v => /[",\n,]/.test(v) ? `"${v}"` : v).join(','))
   return [header.join(','), ...rows].join('\n')
 }
 
-export const sanitize = (x: any): Entry => {
+export const sanitize = (x: unknown): Entry => {
   const now = new Date().toISOString()
-  const date = String(x?.date ?? '').slice(0,10)
-  const mood = toNum(x?.mood, 5)
-  const pain = toNum(x?.pain, 0)
-  const fatigue = toNum(x?.fatigue, 0)
-  const nausea = toNum(x?.nausea, 0)
-  const notes = typeof x?.notes === 'string' && x.notes.trim() ? x.notes : undefined
-  const tags = Array.isArray(x?.tags) ? x.tags.filter(Boolean).map(String) : undefined
-  const id = typeof x?.id === 'string' && x.id ? x.id : `entry-${date}`
-  const createdAt = typeof x?.createdAt === 'string' && x.createdAt ? x.createdAt : now
-  const updatedAt = typeof x?.updatedAt === 'string' && x.updatedAt ? x.updatedAt : now
+  const obj: any = x as any
+  const d = (typeof obj?.date === 'string' ? obj.date : '').slice(0,10)
+  const date = d && /^\d{4}-\d{2}-\d{2}$/.test(d) ? d : now.slice(0,10)
+  const mood = toNum(obj?.mood, 5)
+  const pain = toNum(obj?.pain, 0)
+  const fatigue = toNum(obj?.fatigue, 0)
+  const nausea = toNum(obj?.nausea, 0)
+  const notes = typeof obj?.notes === 'string' && obj.notes.trim() ? obj.notes : undefined
+  const tags = Array.isArray(obj?.tags) ? obj.tags.filter(Boolean).map(String) : undefined
+  const id = typeof obj?.id === 'string' && obj.id ? obj.id : `entry-${date}`
+  const createdAt = typeof obj?.createdAt === 'string' && obj.createdAt ? obj.createdAt : now
+  const updatedAt = typeof obj?.updatedAt === 'string' && obj.updatedAt ? obj.updatedAt : now
   return { id, date, mood, pain, fatigue, nausea, notes, tags, createdAt, updatedAt }
 }
 
-const toNum = (v: any, fallback: number) => {
-  const n = Number(v)
+const toNum = (v: unknown, fallback: number): number => {
+  const n = Number(v as any)
   return Number.isFinite(n) ? n : fallback
 }
 
@@ -85,7 +86,7 @@ export const mergeImported = (
   existing: Entry[],
   imported: Entry[],
   overwrite: boolean,
-) => {
+): { next: Entry[]; conflicts: string[] } => {
   const byDate = new Map(existing.map(e => [e.date, e] as const))
   const conflicts: string[] = []
   for (const e of imported) {
