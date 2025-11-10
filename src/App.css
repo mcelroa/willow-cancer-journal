@@ -101,12 +101,46 @@ table.table th { color: var(--muted); font-weight: 600; }
 .notes-cell { max-width: 420px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .history-controls { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
-.history-controls input { flex: 1; }
+.history-controls .input.search { flex: 1; display: flex; align-items: center; gap: .5rem; background: var(--panel); border: 1px solid var(--border); border-radius: 999px; padding: .4rem .6rem; }
+.history-controls .input.search .icon { color: var(--muted); }
+.history-controls .input.search .input-field { flex: 1; background: transparent; border: 0; color: var(--fg); outline: none; }
+.history-controls .input.search .clear { background: transparent; border: 0; color: var(--muted); cursor: pointer; font-size: 1rem; line-height: 1; padding: .2rem .3rem; }
+.history-controls .input.search:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 25%, transparent); }
 
 .chart-wrap { overflow-x: auto; }
 .chart-legend { display: flex; gap: 1rem; margin-bottom: 0.5rem; align-items: center; }
 .legend { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--muted); }
 .legend .swatch { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+
+/* Nice select */
+.select-wrap { position: relative; display: inline-block; }
+.nice-select { appearance: none; -webkit-appearance: none; -moz-appearance: none; background: var(--panel); color: var(--fg); border: 1px solid var(--border); border-radius: 8px; padding: .45rem 1.8rem .45rem .6rem; }
+.select-wrap::after { content: ''; position: absolute; right: .6rem; top: 50%; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: translateY(-60%) rotate(45deg); pointer-events: none; }
+.nice-select:focus-visible { outline: 3px solid color-mix(in oklab, var(--primary) 45%, transparent); outline-offset: 2px; }
+
+/* Responsive tweaks */
+@media (max-width: 720px) {
+  .app { padding: 1rem; }
+  .app-header { flex-direction: column; align-items: flex-start; gap: .5rem; }
+  .app-header h1 { font-size: 1.3rem; }
+  .tabs { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: .25rem; }
+  .tab { padding: .45rem .7rem; }
+  .card { padding: .75rem; }
+  .grid { grid-template-columns: 1fr; }
+  .history-controls { flex-direction: column; align-items: stretch; gap: .5rem; }
+  .history-controls .input.search { border-radius: 12px; }
+  table.table { font-size: .9rem; }
+  /* hide Notes on small screens */
+  table.table th:nth-child(7), table.table td:nth-child(7) { display: none; }
+}
+
+@media (max-width: 420px) {
+  .tab { padding: .4rem .6rem; font-size: .9rem; }
+  .app-header h1 { font-size: 1.15rem; }
+  /* also hide Tags on very small screens */
+  table.table th:nth-child(6), table.table td:nth-child(6) { display: none; }
+  .nice-select { width: 100%; }
+}
 
 .export .preview { max-height: 280px; overflow: auto; background: #00000018; padding: 0.75rem; border-radius: 8px; }
 .muted { color: var(--muted); }
@@ -130,3 +164,7 @@ table.table th { color: var(--muted); font-weight: 600; }
 .modal-body { padding: 1rem 1rem 0; }
 .modal-actions { padding: .75rem 1rem 1rem; display: flex; gap: .5rem; justify-content: flex-end; }
 .modal .danger { background: var(--danger); color: #fff; border-color: var(--danger); }
+
+/* Inline banners */
+.banner { margin-top: .5rem; padding: .6rem .75rem; border-radius: 8px; border: 1px solid var(--border); background: color-mix(in oklab, var(--panel) 85%, transparent); }
+.banner.success { border-color: var(--c-mood); }

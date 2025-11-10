@@ -15,6 +15,7 @@ function App() {
   const [entries, setEntries] = useState<Entry[]>([])
   const [editing, setEditing] = useState<Entry | undefined>(undefined)
   const [newEntryMode, setNewEntryMode] = useState(false)
+  const [savedAt, setSavedAt] = useState<number | null>(null)
   const toast = useToast()
 
   useEffect(() => {
@@ -31,6 +32,13 @@ function App() {
     const t = tab[0].toUpperCase() + tab.slice(1)
     document.title = `Cancer Journal - ${t}`
   }, [tab])
+
+  // Clear one-shot saved banner token when leaving Journal
+  useEffect(() => {
+    if (tab !== 'journal' && savedAt !== null) {
+      setSavedAt(null)
+    }
+  }, [tab, savedAt])
 
   const latestToday = useMemo(() => entries.find(e => e.date === todayISO()), [entries])
 
@@ -65,7 +73,9 @@ function App() {
           <JournalForm
             key={editing ? `edit-${editing.id}` : newEntryMode ? 'new' : 'default'}
             initial={newEntryMode ? undefined : (editing ?? latestToday)}
-            onSave={(payload) => { handleSave(payload); setEditing(undefined); setNewEntryMode(false) }}
+            getByDate={(d) => entries.find(e => e.date === d)}
+            savedAt={savedAt ?? undefined}
+            onSave={(payload) => { handleSave(payload); setEditing(undefined); setNewEntryMode(true); setSavedAt(Date.now()) }}
             onClearEdit={() => { setEditing(undefined); setNewEntryMode(true) }}
           />
         )}

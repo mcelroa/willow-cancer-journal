@@ -46,11 +46,13 @@ export function Trends({ entries }: { entries: Entry[] }) {
           <span style={{width:'1px', height:'1.5rem', background:'var(--border)', margin:'0 .25rem'}} />
           <label style={{display:'inline-flex', alignItems:'center', gap:'.4rem'}}>
             <span className="muted">Smoothing:</span>
-            <select value={smooth} onChange={e => setSmooth(e.target.value as SmoothOpt)}>
-              <option value="off">Off</option>
-              <option value="avg7">7‑day avg</option>
-              <option value="avg30">30‑day avg</option>
-            </select>
+            <span className="select-wrap">
+              <select className="nice-select" value={smooth} onChange={e => setSmooth(e.target.value as SmoothOpt)}>
+                <option value="off">Off</option>
+                <option value="avg7">7‑day avg</option>
+                <option value="avg30">30‑day avg</option>
+              </select>
+            </span>
           </label>
         </div>
       </div>

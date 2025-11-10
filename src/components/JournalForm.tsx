@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import type { Entry } from '../types'
 import { toISO, todayISO, clamp } from '../types'
+import { useConfirm } from '../confirm'
 
-export function JournalForm({ initial, onSave, onClearEdit }: {
+export function JournalForm({ initial, getByDate, savedAt, onSave, onClearEdit }: {
   initial?: Entry
+  getByDate: (date: string) => Entry | undefined
+  savedAt?: number
   onSave: (e: Omit<Entry,'id'|'createdAt'|'updatedAt'>) => void
   onClearEdit?: () => void
 }) {
@@ -26,9 +29,19 @@ export function JournalForm({ initial, onSave, onClearEdit }: {
     setTags((initial.tags ?? []).join(', '))
   }, [initial])
 
-  const submit = (e: React.FormEvent) => {
+  const confirm = useConfirm()
+  const [showSaved, setShowSaved] = useState(false)
+  useEffect(() => {
+    if (savedAt) {
+      setShowSaved(true)
+      const t = window.setTimeout(() => setShowSaved(false), 3000)
+      return () => window.clearTimeout(t)
+    }
+  }, [savedAt])
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault()
-    onSave({
+    const payload = {
       date,
       mood: clamp(mood, 1, 10),
       pain: clamp(pain, 0, 10),
@@ -36,7 +49,14 @@ export function JournalForm({ initial, onSave, onClearEdit }: {
       nausea: clamp(nausea, 0, 10),
       notes: notes.trim() || undefined,
       tags: tags.split(',').map(t => t.trim()).filter(Boolean)
-    })
+    }
+    const existing = getByDate(date)
+    const isSame = existing && initial && existing.id === initial.id
+    if (existing && !isSame) {
+      const ok = await confirm({ message: `An entry for ${date} already exists. Overwrite it?`, confirmText: 'Overwrite', cancelText: 'Cancel', destructive: true })
+      if (!ok) return
+    }
+    onSave(payload)
   }
 
   return (
@@ -75,6 +95,31 @@ export function JournalForm({ initial, onSave, onClearEdit }: {
       <div className="actions">
         <button type="submit" className="primary">Save Entry</button>
       </div>
+      {showSaved && (
+        <div className="banner success" role="status" aria-live="polite">Entry saved</div>
+      )}
+      {(() => {
+        const existing = getByDate(date)
+        const isSame = existing && initial && existing.id === initial.id
+        if (!existing || isSame) return null
+        return (
+          <div className="muted" style={{marginTop: '.75rem', textAlign:'left'}}>
+            <div style={{fontWeight:600, marginBottom:'.25rem'}}>Existing entry for {date}</div>
+            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(120px,1fr))', gap:'.5rem'}}>
+              <div>Mood: {existing.mood}</div>
+              <div>Pain: {existing.pain}</div>
+              <div>Fatigue: {existing.fatigue}</div>
+              <div>Nausea: {existing.nausea}</div>
+            </div>
+            {existing.tags && existing.tags.length > 0 && (
+              <div style={{marginTop:'.25rem'}}>Tags: {existing.tags.join(', ')}</div>
+            )}
+            {existing.notes && (
+              <div style={{marginTop:'.25rem'}}>Notes: <em>{existing.notes}</em></div>
+            )}
+          </div>
+        )
+      })()}
     </form>
   )
 }
