@@ -3,12 +3,14 @@ import React, { createContext, useCallback, useContext, useMemo, useRef, useStat
 type ToastKind = 'info' | 'success' | 'error'
 type Toast = { id: string; kind: ToastKind; message: string; timeout: number; actionLabel?: string; onAction?: () => void }
 
+export type ShowToast = (
+  message: string | { message: string; kind?: ToastKind; timeoutMs?: number; actionLabel?: string; onAction?: () => void },
+  kind?: ToastKind,
+  timeoutMs?: number,
+) => void
+
 type ToastContextValue = {
-  show: (
-    message: string | { message: string; kind?: ToastKind; timeoutMs?: number; actionLabel?: string; onAction?: () => void },
-    kind?: ToastKind,
-    timeoutMs?: number,
-  ) => void
+  show: ShowToast
   toasts: Toast[]
   dismiss: (id: string) => void
 }
@@ -45,9 +47,14 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-export function useToast() {
+export function useToast(): ShowToast {
   const ctx = useContext(ToastContext)
-  return ctx?.show ?? ((msg: string) => console.warn('ToastProvider missing:', msg))
+  if (ctx) return ctx.show
+  const fallback: ShowToast = (message, _kind, _timeoutMs) => {
+    const text = typeof message === 'string' ? message : message?.message
+    console.warn('ToastProvider missing:', text)
+  }
+  return fallback
 }
 
 export function ToastHost() {
