@@ -36,8 +36,8 @@ export function Export({ entries, onImport }: { entries: Entry[]; onImport: (nex
   return (
     <div className="card export">
       <div className="actions">
-        <button className="primary" onClick={() => { download(`journal-${todayISO()}.json`, 'application/json', json); markBackup(); toast('Backup saved', 'success') }}>Download JSON</button>
-        <button onClick={() => download(`journal-${todayISO()}.csv`, 'text/csv', toCSV(entries))}>Download CSV</button>
+        <button className="primary" onClick={() => { download(`willow-journal-${todayISO()}.json`, 'application/json', json); markBackup(); toast('Backup saved', 'success') }}>Download JSON</button>
+        <button onClick={() => download(`willow-journal-${todayISO()}.csv`, 'text/csv', toCSV(entries))}>Download CSV</button>
         <label className="tab" style={{display:'inline-flex', alignItems:'center', gap:'.5rem', cursor:'pointer'}}>
           Import JSON
           <input type="file" accept="application/json" style={{display:'none'}} onChange={e => {

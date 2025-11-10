@@ -25,7 +25,7 @@ export function BackupReminder({ entries, enabled = true }: { entries: Entry[]; 
           actionLabel: 'Backup now',
           onAction: () => {
             const json = JSON.stringify(entries, null, 2)
-            download(`journal-backup-${todayISO()}.json`, 'application/json', json)
+            download(`willow-backup-${todayISO()}.json`, 'application/json', json)
             markBackup()
             toast('Backup saved', 'success')
           },

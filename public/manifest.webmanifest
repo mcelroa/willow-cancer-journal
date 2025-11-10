@@ -1,11 +1,11 @@
 {
-  "name": "Cancer Journal",
-  "short_name": "Journal",
+  "name": "Willow Cancer Journal",
+  "short_name": "Willow",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
-  "theme_color": "#7c3aed",
-  "description": "Local-first daily cancer treatment journal with trends.",
+  "theme_color": "#10b981",
+  "description": "Willow: a local-first cancer treatment journal with trends.",
   "icons": [
     {
       "src": "/icon.svg",

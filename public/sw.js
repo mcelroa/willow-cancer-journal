@@ -1,4 +1,4 @@
-const CACHE = 'cj-v2';
+const CACHE = 'cj-v3';
 const APP_SHELL = ['/', '/index.html', '/vite.svg', '/manifest.webmanifest', '/icon.svg', '/icon-maskable.svg'];
 
 self.addEventListener('install', (event) => {

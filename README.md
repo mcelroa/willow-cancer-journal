@@ -1,4 +1,4 @@
-Cancer Journal (MVP)
+Willow Cancer Journal
 
 Local‑first web app to log daily cancer treatment symptoms and see trends over time.
 

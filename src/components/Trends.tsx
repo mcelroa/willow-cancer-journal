@@ -31,29 +31,28 @@ export function Trends({ entries }: { entries: Entry[] }) {
 
   return (
     <div className="card">
-      <div className="chart-legend" style={{justifyContent:'space-between', gap: '.75rem', flexWrap:'wrap'}}>
-        <div style={{display:'flex', gap: '1rem', alignItems:'center'}}>
-          <Legend label="Mood" color="var(--c-mood)" />
-          <Legend label="Pain" color="var(--c-pain)" />
-          <Legend label="Fatigue" color="var(--c-fatigue)" />
-          <Legend label="Nausea" color="var(--c-nausea)" />
-        </div>
-        <div style={{display:'flex', gap: '.5rem', alignItems:'center'}}>
+      <div className="chart-legend">
+        <Legend label="Mood" color="var(--c-mood)" />
+        <Legend label="Pain" color="var(--c-pain)" />
+        <Legend label="Fatigue" color="var(--c-fatigue)" />
+        <Legend label="Nausea" color="var(--c-nausea)" />
+      </div>
+      <div className="chart-controls">
+        <div className="group range">
           <span className="muted">Range:</span>
           <button className={'tab' + (range==='7'?' active':'')} onClick={()=>setRange('7')}>7</button>
           <button className={'tab' + (range==='30'?' active':'')} onClick={()=>setRange('30')}>30</button>
           <button className={'tab' + (range==='all'?' active':'')} onClick={()=>setRange('all')}>All</button>
-          <span style={{width:'1px', height:'1.5rem', background:'var(--border)', margin:'0 .25rem'}} />
-          <label style={{display:'inline-flex', alignItems:'center', gap:'.4rem'}}>
-            <span className="muted">Smoothing:</span>
-            <span className="select-wrap">
-              <select className="nice-select" value={smooth} onChange={e => setSmooth(e.target.value as SmoothOpt)}>
-                <option value="off">Off</option>
-                <option value="avg7">7‑day avg</option>
-                <option value="avg30">30‑day avg</option>
-              </select>
-            </span>
-          </label>
+        </div>
+        <div className="group smooth">
+          <span className="muted">Smoothing:</span>
+          <span className="select-wrap">
+            <select className="nice-select" value={smooth} onChange={e => setSmooth(e.target.value as SmoothOpt)}>
+              <option value="off">Off</option>
+              <option value="avg7">7‑day avg</option>
+              <option value="avg30">30‑day avg</option>
+            </select>
+          </span>
         </div>
       </div>
       <LineChart labels={labels} series={series} height={260} />

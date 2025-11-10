@@ -55,6 +55,36 @@ export function History({ entries, onDelete, onEdit }: {
           </tbody>
         </table>
       </div>
+
+      {/* Mobile-friendly list view (visible on small screens via CSS) */}
+      <div className="mobile-list">
+        {filtered.map(e => (
+          <div key={e.id} className="entry-card">
+            <div className="row-1">
+              <strong>{e.date}</strong>
+              <div className="card-actions">
+                <button className="tab" onClick={() => onEdit(e)}>Edit</button>
+                <button className="danger" onClick={() => confirmDelete(e)}>Delete</button>
+              </div>
+            </div>
+            <div className="row-2">
+              <span>Mood: {e.mood}</span>
+              <span>Pain: {e.pain}</span>
+              <span>Fatigue: {e.fatigue}</span>
+              <span>Nausea: {e.nausea}</span>
+            </div>
+            {(e.tags?.length ?? 0) > 0 && (
+              <div className="row-3 muted">Tags: {e.tags!.join(', ')}</div>
+            )}
+            {e.notes && (
+              <div className="row-4 muted">Notes: {e.notes}</div>
+            )}
+          </div>
+        ))}
+        {filtered.length === 0 && (
+          <div className="muted" style={{textAlign:'center'}}>No entries</div>
+        )}
+      </div>
     </div>
   )
 }
