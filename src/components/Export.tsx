@@ -1,5 +1,5 @@
 import type { Entry } from '../types'
-import { todayISO } from '../types'
+import { todayISO, formatDate } from '../types'
 import { toCSV, mergeImported, sanitize } from '../storage'
 import { download } from '../utils'
 import { useToast } from '../toast'
@@ -58,7 +58,7 @@ export function Export({ entries, onImport }: { entries: Entry[]; onImport: (nex
           }} />
         </label>
       </div>
-      <small className="muted">Last backup: {lastBackup ? lastBackup.slice(0,10) : 'never'}</small>
+      <small className="muted">Last backup: {lastBackup ? formatDate(lastBackup.slice(0,10)) : 'never'}</small>
       <details>
         <summary>Preview JSON</summary>
         <pre className="preview">{json}</pre>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Entry } from "../types";
-import { toISO, todayISO, clamp } from "../types";
+import { toISO, todayISO, clamp, formatDate } from "../types";
 import { useConfirm } from "../confirm";
 
 export function JournalForm({
@@ -77,7 +77,7 @@ export function JournalForm({
     <form className="card" onSubmit={submit}>
       {initial && (
         <div className="muted" style={{ marginBottom: ".5rem" }}>
-          Editing entry for <strong>{initial.date}</strong>.{" "}
+          Editing entry for <strong>{formatDate(initial.date)}</strong>.{" "}
           <button type="button" className="tab" onClick={onClearEdit}>
             New entry
           </button>
@@ -179,7 +179,7 @@ export function JournalForm({
             className="muted"
             style={{ marginTop: ".75rem", textAlign: "left" }}>
             <div style={{ fontWeight: 600, marginBottom: ".25rem" }}>
-              Existing entry for {date}
+              Existing entry for {formatDate(date)}
             </div>
             <div
               style={{

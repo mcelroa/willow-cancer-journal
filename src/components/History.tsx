@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Entry } from '../types'
+import { formatDate } from '../types'
 import { useConfirm } from '../confirm'
 
 export function History({ entries, onDelete, onEdit }: {
@@ -36,7 +37,7 @@ export function History({ entries, onDelete, onEdit }: {
           <tbody>
             {filtered.map(e => (
               <tr key={e.id} onDoubleClick={() => onEdit(e)} style={{cursor:'pointer'}}>
-                <td>{e.date}</td>
+                <td>{formatDate(e.date)}</td>
                 <td>{e.mood}</td>
                 <td>{e.pain}</td>
                 <td>{e.fatigue}</td>
@@ -61,7 +62,7 @@ export function History({ entries, onDelete, onEdit }: {
         {filtered.map(e => (
           <div key={e.id} className="entry-card">
             <div className="row-1">
-              <strong>{e.date}</strong>
+              <strong>{formatDate(e.date)}</strong>
               <div className="card-actions">
                 <button className="tab" onClick={() => onEdit(e)}>Edit</button>
                 <button className="danger" onClick={() => confirmDelete(e)}>Delete</button>

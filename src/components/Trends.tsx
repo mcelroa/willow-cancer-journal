@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { Entry } from '../types'
-import { normalize } from '../types'
+import { normalize, formatDate } from '../types'
 
 type RangeOpt = '7' | '30' | 'all'
 type SmoothOpt = 'off' | 'avg7' | 'avg30'
@@ -98,7 +98,7 @@ function LineChart({ labels, series, height = 200 }: { labels: string[]; series:
         ))}
 
         {labels.map((d, i) => (
-          <text key={d} x={x(i)} y={height-8} fontSize="10" textAnchor="middle" fill="var(--muted)">{d.slice(5)}</text>
+          <text key={d} x={x(i)} y={height-8} fontSize="10" textAnchor="middle" fill="var(--muted)">{formatDate(d)}</text>
         ))}
 
         {Object.entries(series).map(([name, values]) => (

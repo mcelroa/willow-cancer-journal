@@ -1,5 +1,5 @@
 import type { Entry } from '../types'
-import { todayISO } from '../types'
+import { todayISO, formatDate } from '../types'
 
 type RangeOpt = '30' | '90' | 'all'
 
@@ -15,7 +15,7 @@ export function VisitSummary({ entries, range, includeNotes, page = 1, pageSize 
     <section className="visit-summary" id="print-summary" aria-label="Visit summary">
       <header className="vs-header">
         <h2>Willow Visit Summary</h2>
-        <div className="muted">Generated on {today}{period ? ` • Period: ${period}` : ''}</div>
+        <div className="muted">Generated on {formatDate(today)}{period ? ` • Period: ${period}` : ''}</div>
       </header>
 
       <div className="vs-grid">
@@ -31,8 +31,8 @@ export function VisitSummary({ entries, range, includeNotes, page = 1, pageSize 
       <div className="vs-section">
         <h3>Highlights</h3>
         <ul className="vs-list">
-          <li>Best mood: {stats.best?.date ?? '—'} {stats.best ? `(mood ${stats.best.mood})` : ''}</li>
-          <li>Most challenging day: {stats.worst?.date ?? '—'} {stats.worst ? `(mood ${stats.worst.mood})` : ''}</li>
+          <li>Best mood: {stats.best ? formatDate(stats.best.date) : '—'} {stats.best ? `(mood ${stats.best.mood})` : ''}</li>
+          <li>Most challenging day: {stats.worst ? formatDate(stats.worst.date) : '—'} {stats.worst ? `(mood ${stats.worst.mood})` : ''}</li>
           {stats.topTags.length > 0 && (
             <li>Common tags: {stats.topTags.slice(0,5).join(', ')}</li>
           )}
@@ -57,7 +57,7 @@ export function VisitSummary({ entries, range, includeNotes, page = 1, pageSize 
             <tbody>
               {rows.map(e => (
                 <tr key={e.id}>
-                  <td>{e.date}</td>
+                  <td>{formatDate(e.date)}</td>
                   <td>{e.mood}</td>
                   <td>{e.pain}</td>
                   <td>{e.fatigue}</td>
@@ -120,7 +120,7 @@ function periodLabel(entries: Entry[]): string | null {
   if (entries.length === 0) return null
   const first = entries[0].date
   const last = entries[entries.length-1].date
-  return `${first} – ${last}`
+  return `${formatDate(first)} – ${formatDate(last)}`
 }
 
 function paginate<T>(arr: T[], page: number, pageSize: number): T[] {
