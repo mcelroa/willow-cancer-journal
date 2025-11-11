@@ -215,6 +215,7 @@ table.table th { color: var(--muted); font-weight: 600; }
   .card.export > *:not(.print-area) { display: none !important; }
   .print-area { display: block !important; }
   .print-full { display: block !important; }
+  .screen-summary { display: none !important; }
   .vs-pager { display: none !important; }
   .visit-summary { border: 0; background: #fff; color: #111; }
   .vs-grid { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }

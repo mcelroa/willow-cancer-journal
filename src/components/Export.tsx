@@ -78,7 +78,9 @@ export function Export({ entries, onImport }: { entries: Entry[]; onImport: (nex
         </div>
       </div>
       <div className="print-area">
-        <VisitSummary entries={entries} range={summaryRange} includeNotes={includeNotes} page={page} pageSize={pageSize} />
+        <div className="screen-summary">
+          <VisitSummary entries={entries} range={summaryRange} includeNotes={includeNotes} page={page} pageSize={pageSize} />
+        </div>
         <div className="vs-pager">
           <button className="tab" onClick={()=> setPage(p => Math.max(1, p-1))} disabled={page<=1}>Prev</button>
           <span className="muted">{page} / {totalPages}</span>
