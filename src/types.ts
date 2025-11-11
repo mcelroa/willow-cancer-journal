@@ -11,7 +11,7 @@ export type Entry = {
   updatedAt: string
 }
 
-export type Tab = 'journal' | 'history' | 'trends' | 'export'
+export type Tab = 'journal' | 'history' | 'trends' | 'export' | 'questions'
 
 export const todayISO = (): string => new Date().toISOString().slice(0, 10)
 export const toISO = (d: Date): string => d.toISOString().slice(0, 10)

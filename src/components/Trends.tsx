@@ -97,9 +97,15 @@ function LineChart({ labels, series, height = 200 }: { labels: string[]; series:
           </g>
         ))}
 
-        {labels.map((d, i) => (
-          <text key={d} x={x(i)} y={height-8} fontSize="10" textAnchor="middle" fill="var(--muted)">{formatDate(d)}</text>
-        ))}
+        {/* X-axis labels: only show start and end dates for readability */}
+        {labels.length === 1 ? (
+          <text x={x(0)} y={height-8} fontSize="10" textAnchor="middle" fill="var(--muted)">{formatDate(labels[0])}</text>
+        ) : (
+          <>
+            <text x={x(0)} y={height-8} fontSize="10" textAnchor="start" fill="var(--muted)">{formatDate(labels[0])}</text>
+            <text x={x(labels.length-1)} y={height-8} fontSize="10" textAnchor="end" fill="var(--muted)">{formatDate(labels[labels.length-1])}</text>
+          </>
+        )}
 
         {Object.entries(series).map(([name, values]) => (
           <path key={name} d={pathFor(values)} fill="none" stroke={colors[name] ?? 'steelblue'} strokeWidth={2} />

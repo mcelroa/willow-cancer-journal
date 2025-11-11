@@ -161,9 +161,16 @@ export function JournalForm({
         />
       </Field>
       <div className="actions">
-        <button type="submit" className="primary">
-          Save Entry
-        </button>
+        {(() => {
+          const existing = getByDate(date);
+          const isSame = existing && initial && existing.id === initial.id;
+          const overwrite = Boolean(existing && !isSame);
+          return (
+            <button type="submit" className={overwrite ? "danger" : "primary"}>
+              {overwrite ? "Overwrite Entry" : "Save Entry"}
+            </button>
+          );
+        })()}
       </div>
       {showSaved && (
         <div className="banner success" role="status" aria-live="polite">
@@ -175,33 +182,25 @@ export function JournalForm({
         const isSame = existing && initial && existing.id === initial.id;
         if (!existing || isSame) return null;
         return (
-          <div
-            className="muted"
-            style={{ marginTop: ".75rem", textAlign: "left" }}>
-            <div style={{ fontWeight: 600, marginBottom: ".25rem" }}>
-              Existing entry for {formatDate(date)}
+          <div className="callout warning" role="note" aria-live="polite">
+            <div className="callout-head">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 9v4m0 4h.01M12 3l9 18H3L12 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              <strong>Already logged</strong>
+              <span className="muted">{formatDate(date)}</span>
             </div>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit,minmax(120px,1fr))",
-                gap: ".5rem",
-              }}>
+            <div className="callout-grid">
               <div>Mood: {existing.mood}</div>
               <div>Pain: {existing.pain}</div>
               <div>Fatigue: {existing.fatigue}</div>
               <div>Nausea: {existing.nausea}</div>
             </div>
             {existing.tags && existing.tags.length > 0 && (
-              <div style={{ marginTop: ".25rem" }}>
-                Tags: {existing.tags.join(", ")}
-              </div>
+              <div className="muted">Tags: {existing.tags.join(", ")}</div>
             )}
             {existing.notes && (
-              <div style={{ marginTop: ".25rem" }}>
-                Notes: <em>{existing.notes}</em>
-              </div>
+              <div className="muted">Notes: <em>{existing.notes}</em></div>
             )}
+            <div className="muted" style={{marginTop:'.25rem'}}>Saving will overwrite the existing entry for this date.</div>
           </div>
         );
       })()}

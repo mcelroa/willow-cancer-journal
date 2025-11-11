@@ -7,6 +7,7 @@ import { JournalForm } from './components/JournalForm'
 import { History } from './components/History'
 import { Trends } from './components/Trends'
 import { Export } from './components/Export'
+import { Questions } from './components/Questions'
 import { useToast } from './toast'
 import { BackupReminder } from './components/BackupReminder'
 
@@ -75,6 +76,7 @@ function App() {
           <TabBtn label="Journal" active={tab==='journal'} onClick={() => setTab('journal')} />
           <TabBtn label="History" active={tab==='history'} onClick={() => setTab('history')} />
           <TabBtn label="Trends" active={tab==='trends'} onClick={() => setTab('trends')} />
+          <TabBtn label="Questions" active={tab==='questions'} onClick={() => setTab('questions')} />
           <TabBtn label="Export" active={tab==='export'} onClick={() => setTab('export')} />
           <button className="tab" onClick={()=> setAboutOpen(true)}>About</button>
         </nav>
@@ -111,6 +113,10 @@ function App() {
 
         {tab === 'trends' && (
           <Trends entries={entries} />
+        )}
+
+        {tab === 'questions' && (
+          <Questions />
         )}
 
         {tab === 'export' && (
