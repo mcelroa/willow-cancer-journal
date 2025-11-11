@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { Entry } from '../types'
-import { formatDate } from '../types'
+import { formatDate } from '../types.ts'
 import { useConfirm } from '../confirm'
 
 export function History({ entries, onDelete, onEdit }: {

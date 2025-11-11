@@ -244,8 +244,17 @@ table.table th { color: var(--muted); font-weight: 600; }
 }
 
 /* Callouts */
-.callout { border: 1px solid var(--border); border-left-width: 4px; border-radius: 10px; padding: .6rem .75rem; background: color-mix(in oklab, var(--panel) 92%, var(--c-pain) 8%); }
+.callout { border: 1px solid var(--border); border-left-width: 4px; border-radius: 10px; padding: .6rem .75rem; background: color-mix(in oklab, var(--panel) 92%, var(--c-pain) 8%); margin-top: .75rem; }
 .callout.warning { border-left-color: var(--c-pain); }
 .callout .callout-head { display: flex; align-items: center; gap: .5rem; margin-bottom: .25rem; color: var(--fg); }
 .callout .callout-head svg { color: var(--c-pain); }
 .callout .callout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: .25rem .75rem; margin-bottom: .25rem; }
+.callout .callout-sep { height: 1px; background: var(--border); margin: .4rem 0; }
+.fine-print { color: var(--muted); font-size: .9rem; }
+
+/* History table sizing tweaks */
+@media (max-width: 900px) {
+  .history .notes-cell { max-width: 260px; }
+  .history .row-actions .tab,
+  .history .row-actions .danger { padding: .35rem .6rem; }
+}

@@ -1,5 +1,5 @@
 import type { Entry } from '../types'
-import { todayISO, formatDate } from '../types'
+import { todayISO, formatDate } from '../types.ts'
 import { toCSV, mergeImported, sanitize } from '../storage'
 import { download } from '../utils'
 import { useToast } from '../toast'

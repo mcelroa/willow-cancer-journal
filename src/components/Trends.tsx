@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { Entry } from '../types'
-import { normalize, formatDate } from '../types'
+import { normalize, formatDate } from '../types.ts'
 
 type RangeOpt = '7' | '30' | 'all'
 type SmoothOpt = 'off' | 'avg7' | 'avg30'

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Entry } from "../types";
-import { toISO, todayISO, clamp, formatDate } from "../types";
+import { toISO, todayISO, clamp, formatDate } from "../types.ts";
 import { useConfirm } from "../confirm";
 
 export function JournalForm({
@@ -195,12 +195,13 @@ export function JournalForm({
               <div>Nausea: {existing.nausea}</div>
             </div>
             {existing.tags && existing.tags.length > 0 && (
-              <div className="muted">Tags: {existing.tags.join(", ")}</div>
+              <div><strong>Tags:</strong> {existing.tags.join(", ")}</div>
             )}
             {existing.notes && (
-              <div className="muted">Notes: <em>{existing.notes}</em></div>
+              <div><strong>Notes:</strong> <em>{existing.notes}</em></div>
             )}
-            <div className="muted" style={{marginTop:'.25rem'}}>Saving will overwrite the existing entry for this date.</div>
+            <div className="callout-sep" />
+            <div className="fine-print">Saving will overwrite the existing entry for this date.</div>
           </div>
         );
       })()}

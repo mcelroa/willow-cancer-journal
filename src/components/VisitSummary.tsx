@@ -1,5 +1,5 @@
 import type { Entry } from '../types'
-import { todayISO, formatDate } from '../types'
+import { todayISO, formatDate } from '../types.ts'
 
 type RangeOpt = '30' | '90' | 'all'
 
