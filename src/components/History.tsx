@@ -17,7 +17,7 @@ export function History({ entries, onDelete, onEdit }: {
   }
 
   return (
-    <div className="card">
+    <div className="card history">
       <div className="history-controls">
         <div className="input search">
           <svg className="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M11 19a8 8 0 1 1 5.293-13.707A8 8 0 0 1 11 19Zm9.707 1.293-4.2-4.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>

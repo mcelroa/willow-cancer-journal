@@ -132,15 +132,20 @@ table.table th { color: var(--muted); font-weight: 600; }
   .history-controls { flex-direction: column; align-items: stretch; gap: .5rem; }
   .history-controls .input.search { border-radius: 12px; }
   table.table { font-size: .9rem; }
-  /* hide Notes on small screens */
-  table.table th:nth-child(7), table.table td:nth-child(7) { display: none; }
-  /* show mobile cards, hide table */
-  .mobile-list { display: grid; gap: .5rem; }
-  .table-wrap { display: none; }
-  .entry-card { border: 1px solid var(--border); border-radius: 10px; padding: .75rem; background: var(--panel); }
-  .entry-card .row-1 { display: flex; justify-content: space-between; align-items: center; gap: .5rem; margin-bottom: .25rem; }
-  .entry-card .row-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: .25rem .75rem; }
-  .entry-card .card-actions { display: inline-flex; gap: .4rem; }
+  /* History-specific responsive behavior */
+  .history .mobile-list { display: grid; gap: .5rem; }
+  .history .table-wrap { display: none; }
+  .history .entry-card { border: 1px solid var(--border); border-radius: 10px; padding: .75rem; background: var(--panel); }
+  .history .entry-card .row-1 { display: flex; justify-content: space-between; align-items: center; gap: .5rem; margin-bottom: .25rem; }
+  .history .entry-card .row-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: .25rem .75rem; }
+  .history .entry-card .card-actions { display: inline-flex; gap: .4rem; }
+  /* Don't hide columns globally; scope to history table */
+  .history table.table th:nth-child(7), .history table.table td:nth-child(7) { display: none; }
+  /* Export summary tweaks */
+  .visit-summary { padding: .75rem; }
+  .vs-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .vs-pager { justify-content: center; }
+  .vs-controls .actions { flex-direction: column; align-items: flex-start; gap: .5rem; }
 }
 
 @media (max-width: 420px) {
@@ -149,7 +154,7 @@ table.table th { color: var(--muted); font-weight: 600; }
   /* also hide Tags on very small screens */
   table.table th:nth-child(6), table.table td:nth-child(6) { display: none; }
   .nice-select { width: 100%; }
-  .entry-card .row-2 { grid-template-columns: 1fr; }
+  .history .entry-card .row-2 { grid-template-columns: 1fr; }
 }
 
 /* Chart controls layout */
@@ -185,3 +190,38 @@ table.table th { color: var(--muted); font-weight: 600; }
 .banner.info { border-color: var(--primary); }
 .banner .actions { justify-content: flex-start; }
 .btn-link { background: transparent; border: 0; color: var(--primary); cursor: pointer; padding: 0; font-weight: 600; }
+
+/* Visit Summary */
+.visit-summary { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; }
+.vs-header { display:flex; align-items: baseline; justify-content: space-between; gap: .5rem; margin-bottom: .5rem; }
+.vs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: .5rem; margin-bottom: .5rem; }
+.vs-card { background: transparent; border: 1px solid var(--border); border-radius: 10px; padding: .6rem .75rem; }
+.vs-card-title { font-size: .85rem; margin-bottom: .25rem; }
+.vs-kpi { font-size: 1.4rem; font-weight: 700; }
+.vs-section { margin-top: .75rem; }
+.vs-list { margin: .25rem 0 0; padding-left: 1rem; }
+.vs-footer { margin-top: .75rem; }
+.vs-controls { margin-top: 1rem; }
+.vs-pagination { display: inline-flex; align-items: center; gap: .4rem; }
+.print-area { margin-top: .5rem; }
+.vs-pager { display: flex; justify-content: flex-end; align-items: center; gap: .5rem; margin-top: .5rem; }
+
+/* Print styles: print only the summary area, with clear layout */
+@media print {
+  @page { size: A4; margin: 12mm; }
+  :root { --panel: #ffffff; --fg: #111111; --border: #dddddd; --muted: #555555; }
+  body { background: #fff !important; color: #111 !important; }
+  .app-header, .tabs, .vs-controls, .history-controls, .app-footer, .toasts, .modal-overlay { display: none !important; }
+  .card.export > *:not(.print-area) { display: none !important; }
+  .print-area { display: block !important; }
+  .print-full { display: block !important; }
+  .vs-pager { display: none !important; }
+  .visit-summary { border: 0; background: #fff; color: #111; }
+  .vs-grid { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; }
+  .vs-card { border-color: #ddd; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .table-wrap { overflow: visible !important; }
+  table.table { font-size: 12px; }
+  table.table th, table.table td { white-space: normal; }
+  tr, .entry-card, .vs-card { break-inside: avoid; page-break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+}
