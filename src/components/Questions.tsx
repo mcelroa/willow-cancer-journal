@@ -55,7 +55,7 @@ export function Questions() {
   }
 
   return (
-    <div className="card">
+    <div className="card questions">
       <form onSubmit={submit}>
         <div className="q-new">
           <input className="q-input" value={text} onChange={e=> setText(e.target.value)} placeholder="Type your question" aria-label="New question" />
@@ -83,7 +83,7 @@ export function Questions() {
         </div>
       </div>
 
-      <div className="table-wrap" style={{marginTop:'.5rem'}}>
+      <div className="table-wrap q-desktop-table" style={{marginTop:'.5rem'}}>
         <table className="table">
           <thead>
             <tr>
@@ -109,6 +109,24 @@ export function Questions() {
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="q-mobile-list">
+        {filtered.map(q => (
+          <div key={q.id} className="q-card">
+            <div className="q-card-top">
+              <span className="badge">{TYPES.find(t=>t.value===q.type)?.label}</span>
+              <div className="q-actions">
+                <button className="primary" onClick={()=> setStatus(q.id, 'answered')} type="button">Answered</button>
+                <button className="danger" onClick={()=> onDelete(q.id)} type="button">Delete</button>
+              </div>
+            </div>
+            <div className="q-text">{q.text}</div>
+          </div>
+        ))}
+        {filtered.length===0 && (
+          <div className="muted" style={{textAlign:'center'}}>No questions</div>
+        )}
       </div>
 
       <details style={{marginTop:'.75rem'}}>

@@ -130,9 +130,8 @@ function App() {
           <div className="modal">
             <div className="modal-body">
               <h2 style={{marginTop:0}}>About Willow</h2>
-              <p>Willow Cancer Journal helps you track daily symptoms during treatment — mood, pain, fatigue, and nausea — and see trends over time.</p>
+              <p>Willow Cancer Journal helps you track daily symptoms during treatment – mood, pain, fatigue, and nausea – and see trends over time.</p>
               <p><strong>Privacy first:</strong> your data is stored locally in your browser. You can export to JSON/CSV anytime and keep your own backups.</p>
-              <p>Install Willow as an app for offline access and quick entry.</p>
             </div>
             <div className="modal-actions">
               <button className="tab" onClick={()=> setAboutOpen(false)}>Close</button>

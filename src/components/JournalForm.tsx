@@ -46,6 +46,16 @@ export function JournalForm({
     }
   }, [savedAt]);
 
+  const resetFields = (nextDate: string) => {
+    setDate(nextDate);
+    setMood(1);
+    setPain(0);
+    setFatigue(0);
+    setNausea(0);
+    setNotes("");
+    setTags("");
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const payload = {
@@ -96,7 +106,7 @@ export function JournalForm({
             aria-label="Date"
             type="date"
             value={date}
-            onChange={(e) => setDate(e.target.value)}
+            onChange={(e) => resetFields(e.target.value)}
             max={toISO(new Date())}
             required
           />

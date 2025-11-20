@@ -100,6 +100,11 @@ table.table th, table.table td { border-bottom: 1px solid var(--border); padding
 table.table th { color: var(--muted); font-weight: 600; }
 .row-actions { text-align: right; white-space: nowrap; }
 .notes-cell { max-width: 420px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.questions .q-mobile-list { display: none; }
+.q-card { border: 1px solid var(--border); border-radius: 10px; padding: .75rem; background: var(--panel); }
+.q-card-top { display: flex; justify-content: space-between; align-items: center; gap: .5rem; margin-bottom: .35rem; }
+.q-actions { display: inline-flex; gap: .4rem; flex-wrap: wrap; justify-content: flex-end; }
+.q-text { font-size: 1rem; line-height: 1.4; }
 /* Hide mobile list by default; enabled via media query */
 .mobile-list { display: none; }
 
@@ -157,6 +162,12 @@ table.table th { color: var(--muted); font-weight: 600; }
   .history .entry-card .card-actions { display: inline-flex; gap: .4rem; }
   /* Don't hide columns globally; scope to history table */
   .history table.table th:nth-child(7), .history table.table td:nth-child(7) { display: none; }
+  /* Questions: switch to cards for active list on small screens */
+  .questions .q-desktop-table { display: none; }
+  .questions .q-mobile-list { display: grid; gap: .5rem; }
+  .q-card-top { flex-direction: column; align-items: flex-start; }
+  .q-actions { width: 100%; justify-content: flex-start; }
+  .q-actions .primary, .q-actions .danger { width: 100%; }
   /* Export summary tweaks */
   .visit-summary { padding: .75rem; }
   .vs-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
@@ -171,6 +182,10 @@ table.table th { color: var(--muted); font-weight: 600; }
   table.table th:nth-child(6), table.table td:nth-child(6) { display: none; }
   .nice-select { width: 100%; }
   .history .entry-card .row-2 { grid-template-columns: 1fr; }
+  .questions .table-wrap { display: none; }
+  .questions .q-mobile-list { display: grid; gap: .5rem; }
+  .q-actions .primary, .q-actions .danger { width: auto; }
+  .q-text { font-size: .98rem; }
 }
 
 /* Chart controls layout */
